@@ -159,7 +159,7 @@ export const create = () => {
     }
 
     setTransform( 1, 0, 0, 0 )
-    setTileSize( 200 )
+    setTileSize( 100 )
 
     return {
 
