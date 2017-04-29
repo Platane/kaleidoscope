@@ -12,7 +12,7 @@ element.style.height = '100%'
 element.style.top = 0
 element.style.left = 0
 
-setImage( require('../src/asset/garden.jpg') )
+setImage( require('../src/asset/glass.jpg') )
 
 setTileSize( 240 )
 
@@ -23,7 +23,7 @@ const loop = () => {
 
     const s = 0.86 * ( 0.75 + 0.25 * Math.sin( k*0.01 ) ) * 0.7
 
-    const r = Math.min( ( 1-s ) /2, 0.4 )
+    const r = Math.min( ( 1-s ) /2, 0.2 )
 
     const tx = r * Math.sin( k*0.04 )
     const ty = r * Math.cos( k*0.04 )
@@ -41,5 +41,7 @@ const loop = () => {
 }
 
 loop()
+
+window.onresize = resize
 
 setTimeout( resize, 1 )

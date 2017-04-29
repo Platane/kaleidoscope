@@ -1,0 +1,18 @@
+box: node:7.9
+
+deploy:
+    steps:
+
+        - script:
+            name: install dependencies
+            code: |
+                export YARN_CACHE=$WERCKER_CACHE_DIR/yarn
+                HOME=$YARN_CACHE yarn --pure-lockfile --ignore-scripts
+
+        - script:
+            name: build
+            code: npm run build
+
+        - takuma7/gh-pages:
+            token: $GH_TOKEN
+            basedir: dist
