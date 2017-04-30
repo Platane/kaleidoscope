@@ -9,7 +9,7 @@ const create = () : Matrix3 => Array.from({ length: 9 })
 
 
 const tmp = create()
-export const mult = ( a: Matrix3, b: Matrix3, out: Matrix3 ): Matrix3 => {
+export const mult = ( a: Matrix3, b: Matrix3, out?: Matrix3 ): Matrix3 => {
 
     out = out || create()
 
@@ -29,7 +29,7 @@ export const mult = ( a: Matrix3, b: Matrix3, out: Matrix3 ): Matrix3 => {
     return out
 }
 
-export const buildScaleMatrix = ( s: number, out: Matrix3 ) => {
+export const buildScaleMatrix = ( s: number, out?: Matrix3 ) => {
 
     out = out || create()
 
@@ -48,7 +48,7 @@ export const buildScaleMatrix = ( s: number, out: Matrix3 ) => {
     return out
 }
 
-export const buildTranslateMatrix = ( tx: number, ty: number, out: Matrix3 ) => {
+export const buildTranslateMatrix = ( tx: number, ty: number, out?: Matrix3 ) => {
 
     out = out || create()
 
@@ -67,7 +67,7 @@ export const buildTranslateMatrix = ( tx: number, ty: number, out: Matrix3 ) => 
     return out
 }
 
-export const buildRotateMatrix = ( angle: number, out: Matrix3 ) => {
+export const buildRotateMatrix = ( angle: number, out?: Matrix3 ) => {
 
     out = out || create()
 
@@ -109,7 +109,7 @@ const k     = create()
  *      - scale must be kept between [ 0, 1/sqrt(2) ] in order to have a safe rotation
  *      - t_ must be kept between [ -(1-scale)/2, (1-scale)/2 ]
  */
-export const buildTransformMatrix = ( scale: number, angle: number, tx: number, ty: number, out: Matrix3 ) : Matrix3 => {
+export const buildTransformMatrix = ( scale: number, angle: number, tx: number, ty: number, out?: Matrix3 ) : Matrix3 => {
 
     out = out || create()
 

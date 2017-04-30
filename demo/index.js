@@ -7,19 +7,19 @@ const attach = options => {
 
     const { element, resize, draw, setImage, setTransform, setTileSize } = create( options )
 
-    setImage( imagePath[ options.image ] )
+    setImage( options.image )
 
-    setTileSize( 240 )
+    setTileSize( options.tileSize )
 
-    document.body.appendChild( element )
+    document.body && document.body.appendChild( element )
     element.style.position = 'absolute'
     element.style.width = '100%'
     element.style.height = '100%'
-    element.style.top = 0
-    element.style.left = 0
+    element.style.top = '0'
+    element.style.left = '0'
 
     let k=0
-    let timeout=null
+    let timeout=0
     const loop = () => {
 
         k++
@@ -51,9 +51,10 @@ const attach = options => {
 
     return {
         setImage,
+        setTileSize,
         destroy : () => {
             cancelAnimationFrame(timeout)
-            element.parentNode.removeChild(element)
+            element.parentNode && element.parentNode.removeChild(element)
         }
     }
 }
@@ -66,7 +67,8 @@ const imagePath = {
 }
 const config = {
     implementation  : 'webgl',
-    image           : 'glass',
+    image           : imagePath[ Object.keys(imagePath)[0] ],
+    tileSize        : 200,
 }
 
 const gui = new GUI()
@@ -79,7 +81,12 @@ gui.add( config, 'implementation', [ 'webgl', 'svg' ] )
         x = attach(config)
     })
 
-gui.add( config, 'image', Object.keys(imagePath) )
-    .onChange( () => x.setImage( imagePath[ config.image ] ) )
+gui.add( config, 'image', imagePath )
+    .onChange( x.setImage )
+
+// gui.add( config, 'tileSize' )
+//     .min( 50 )
+//     .max( 500 )
+//     .onChange( x.setTileSize )
 
 gui.domElement.parentNode.style.zIndex = '2'

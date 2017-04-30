@@ -26,7 +26,6 @@ module.exports = {
                         ? {
                             presets : [ 'es2017', 'flow', 'babili' ],
                             plugins : [
-                                'transform-class-properties',
                                 'transform-es2015-modules-commonjs',
                                 'transform-object-rest-spread'
                             ]
@@ -74,21 +73,6 @@ module.exports = {
 
         ],
     },
-
-    plugins : [
-
-        new webpack.DefinePlugin(
-                [
-                    'NODE_ENV',
-                    'SOURCE_URL',
-                ]
-                    .reduce( (o,name) =>
-                        !(name in process.env)
-                            ? o
-                            : { ...o, [ 'process.env.'+name ] : `'${ process.env[ name ] }'`}
-                    ,{})
-        )
-    ],
 
     devtool : production ? false : 'source-map',
 }
