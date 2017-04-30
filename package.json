@@ -1,7 +1,9 @@
 {
     "name": "kaleidoscope",
     "version": "1.0.0",
-    "dependencies": {},
+    "dependencies": {
+        "dat.gui" : "0.6.1"
+    },
     "devDependencies": {
         "babel-cli": "6.24.0",
         "babel-core": "6.24.0",
@@ -23,7 +25,7 @@
     },
     "scripts": {
         "start": "webpack-dev-server --port 8082 --inline --devtool source-map --content-base ./ -d",
-        "build": "env NODE_ENV=production2 webpack",
+        "build": "env NODE_ENV=production webpack",
         "flow-typed": "flow-typed install"
     }
 }

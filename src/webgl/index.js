@@ -1,14 +1,14 @@
 
 import { createProgram, bindUniformMat3, bindAttribute, bindElementIndex, bindUniformTexture }        from './gl_util'
 
-import { buildTransformMatrix } from './matrix'
+import { buildTransformMatrix } from '../util/matrix'
 
-import { loadImage }    from './loadImage'
+import { loadImage }    from '../util/loadImage'
 
 import fragmentShaderSource     from './fragment_fs.glsl'
 import vertexShaderSource       from './vertex_vs.glsl'
 
-import {create as createDebugTransform}     from './debugTransform'
+import {create as createDebugTransform}     from '../util/debugTransform'
 
 const WEBGL_OPTIONS = {}
 
@@ -115,7 +115,7 @@ export const create = () => {
     updateMesh()
 
 
-    const debugTransform = createDebugTransform()
+    // const debugTransform = createDebugTransform()
 
     return {
 
@@ -123,7 +123,7 @@ export const create = () => {
 
         setTransform : ( scale:number, angle:number, tx:number, ty:number ) => {
             uniform_transform.update(buildTransformMatrix(scale, angle, tx, ty, transform_matrix))
-            debugTransform( transform_matrix )
+            // debugTransform( transform_matrix )
         },
 
         setImage : ( image: HTMLCanvasElement | HTMLImageElement | string ) =>

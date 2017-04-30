@@ -87,14 +87,18 @@ export const create = () => {
             h('clipPath', {id:'faceClip'},
                 h('path', {d:`M-0.5 -0.5  L100.5 -0.5  L50 ${Math.ceil(50*Math.sqrt(3))+0.5}z`})
             ),
-            imageClipped = h('g', {id: 'triangle', 'clip-path': 'url(#faceClip)'},
+            imageClipped = h('g',
+                {
+                    id: 'triangle',
+                    'clip-path': 'url(#faceClip)'
+                },
                 image = h('image',
                     {
                         width: 100,
                         height: 100,
                         x:0,
                         y:0,
-                        preserveAspectRatio:'xMaxYMax slice'
+                        preserveAspectRatio:'xMidYMid slice'
                     }
                 ),
             ),
@@ -130,33 +134,19 @@ export const create = () => {
         )
     }
 
-    const setTransform = ( scale:number, angle:number, tx:number, ty:number ) => {
+    const setTransform = ( scale:number, angle:number, tx:number, ty:number ) =>
 
-        const r = Math.sqrt(2)
-
-        image.style.transformOrigin = '50% 50%'
-        image.style.translate = 'transform 100ms'
-
-        image.animate(
+        image.setAttribute('transform',
             [
-                {
-                    transform : 'scale(2) rotate(0deg)',
-                },
-                {
-                    transform : 'scale(1.8) translate(13px,10px) rotate(180deg)',
-                },
-                {
-                    transform : 'scale(2) rotate(360deg)',
-                },
-            ],
-            {
-                duration    : 6000,
-                iterations  : Infinity,
-            }
+                `translate(${50},${50})`,
+                `rotate(${angle/Math.PI*180})`,
+                `scale(${1/scale},${1/scale})`,
+                `translate(${-50},${-50})`,
+                `translate(${tx*100},${ty*100})`,
+            ]
+                .join(' ')
         )
 
-        // image.setAttribute('transform', `rotate(${0/Math.PI*180})`)
-    }
 
     setTransform( 1, 0, 0, 0 )
     setTileSize( 100 )
