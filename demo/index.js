@@ -3,28 +3,17 @@ import {create}     from '../src'
 import {GUI}          from 'dat.gui/build/dat.gui'
 
 
-const attach = options => {
-
-    const { element, resize, draw, setImage, setTransform, setTileSize, setUpScaling } = create( options )
-
-    setImage( options.image )
-
-    setTileSize( options.tileSize )
-
-    setUpScaling( options.upScaling )
-
-    document.body && document.body.appendChild( element )
-    element.style.position = 'absolute'
-    element.style.width = '100%'
-    element.style.height = '100%'
-    element.style.top = '0'
-    element.style.left = '0'
+const createStepper = ( setTransform, draw ) => {
 
     let k=0
+    let vk=1
     let timeout=0
+
     const loop = () => {
 
-        k++
+        vk = vk * 0.98
+
+        k += 0.07 + vk * 1.1
 
         const s = 0.86 * ( 0.75 + 0.25 * Math.sin( k*0.01 ) ) * 0.7
 
@@ -45,7 +34,53 @@ const attach = options => {
         timeout = requestAnimationFrame(loop)
     }
 
+    let mousex = 0
+    let mousey = 0
+    const mousemove = ( event: MouseEvent ) => {
+
+        let delta = Math.abs( event.clientX - mousex ) + Math.abs( event.clientY - mousey )
+
+        if ( mousex > event.clientX )
+            delta = - delta
+
+        mousex = event.clientX
+        mousey = event.clientY
+
+        vk = Math.max(Math.min( vk + delta / 400, 1 ), -1)
+    }
+
+    window.addEventListener( 'mousemove', mousemove )
+
     loop()
+
+
+    return () => {
+        window.removeEventListener( 'mousemove', mousemove )
+        cancelAnimationFrame(timeout)
+    }
+}
+
+const attach = options => {
+
+    const { element, resize, draw, setImage, setTransform, setTileSize, setUpScaling } = create( options )
+
+    setImage( options.image )
+
+    setTileSize( options.tileSize )
+
+    setUpScaling( options.upScaling )
+
+    document.body && document.body.appendChild( element )
+
+    if ( element instanceof HTMLElement ) {
+        element.style.position = 'absolute'
+        element.style.width = '100%'
+        element.style.height = '100%'
+        element.style.top = '0'
+        element.style.left = '0'
+    }
+
+    const destroyStepper = createStepper( setTransform, draw )
 
     window.onresize = resize
 
@@ -56,7 +91,7 @@ const attach = options => {
         setUpScaling,
         setTileSize,
         destroy : () => {
-            cancelAnimationFrame(timeout)
+            destroyStepper()
             element.parentNode && element.parentNode.removeChild(element)
         }
     }
