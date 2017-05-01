@@ -3,7 +3,7 @@ kaleidoscope
 
 An attempt to compare implementations of kaleidoscope effect.
 
-[platane.github.io/kaleidoscope](https://platane.github.io/kaleidoscope/)
+[![kaleidoscope](https://platane.github.io/kaleidoscope/kaleidoscope.jpg)](https://platane.github.io/kaleidoscope/)
 
 
 

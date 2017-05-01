@@ -25,7 +25,7 @@
     },
     "scripts": {
         "start": "webpack-dev-server --port 8082 --inline --devtool source-map --content-base ./ -d",
-        "build": "env NODE_ENV=production webpack",
+        "build": "env NODE_ENV=production webpack && cp ./src/asset/screen/* dist",
         "flow-typed": "flow-typed install"
     }
 }
