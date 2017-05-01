@@ -155,6 +155,8 @@ export const create = () => {
 
         element: svg,
 
+        setUpScaling : () => 0,
+
         setTileSize : setTileSize,
 
         setTransform : setTransform,

@@ -5,11 +5,13 @@ import {GUI}          from 'dat.gui/build/dat.gui'
 
 const attach = options => {
 
-    const { element, resize, draw, setImage, setTransform, setTileSize } = create( options )
+    const { element, resize, draw, setImage, setTransform, setTileSize, setUpScaling } = create( options )
 
     setImage( options.image )
 
     setTileSize( options.tileSize )
+
+    setUpScaling( options.upScaling )
 
     document.body && document.body.appendChild( element )
     element.style.position = 'absolute'
@@ -51,6 +53,7 @@ const attach = options => {
 
     return {
         setImage,
+        setUpScaling,
         setTileSize,
         destroy : () => {
             cancelAnimationFrame(timeout)
@@ -65,10 +68,19 @@ const imagePath = {
     'kitchen'   : require('../src/asset/kitchen.jpg'),
     'raspberry' : require('../src/asset/raspberry.jpg'),
 }
+
+const upScalingValue = {
+    'x1 (better quality)'   : 1,
+    'x2'                    : 2,
+    'x4'                    : 4,
+    'x8'                    : 8,
+}
+
 const config = {
     implementation  : 'webgl',
     image           : imagePath[ Object.keys(imagePath)[0] ],
     tileSize        : 200,
+    upScaling       : 1,
 }
 
 const gui = new GUI()
@@ -84,9 +96,12 @@ gui.add( config, 'implementation', [ 'webgl', 'svg' ] )
 gui.add( config, 'image', imagePath )
     .onChange( x.setImage )
 
-// gui.add( config, 'tileSize' )
-//     .min( 50 )
-//     .max( 500 )
-//     .onChange( x.setTileSize )
+gui.add( config, 'upScaling', upScalingValue )
+    .onChange( x.setUpScaling )
+
+gui.add( config, 'tileSize', 20, 500 )
+    .min( 20 )
+    .max( 500 )
+    .onChange( x.setTileSize )
 
 gui.domElement.parentNode.style.zIndex = '2'

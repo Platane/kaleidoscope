@@ -99,12 +99,18 @@ export const create = () => {
 
     let n_faces = 0
     let tileSize = 100
-
+    let upscaling = 1
 
     const transform_matrix = []
 
     const updateMesh = () => {
-        const { vertices, faces, uvs } = buildMesh( tileSize, canvas.width, canvas.height )
+
+        canvas.width = canvas.clientWidth / upscaling
+        canvas.height = canvas.clientHeight / upscaling
+
+        gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight)
+
+        const { vertices, faces, uvs } = buildMesh( tileSize, canvas.clientWidth, canvas.clientHeight )
 
         n_faces = faces.length
 
@@ -135,18 +141,17 @@ export const create = () => {
                 .then( image => uniform_texture.update( image ) )
         ,
 
+        setUpScaling : ( s: number ) => {
+            upscaling = s
+            updateMesh()
+        },
+
         setTileSize : ( s: number ) => {
             tileSize = s
             updateMesh()
         },
 
         resize : () => {
-
-            canvas.width = canvas.clientWidth
-            canvas.height = canvas.clientHeight
-
-            gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight)
-
             updateMesh()
         },
 
