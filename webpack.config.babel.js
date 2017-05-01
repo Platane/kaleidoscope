@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const production = 'production' == process.env.NODE_ENV
 
 module.exports = {
@@ -24,13 +25,11 @@ module.exports = {
                         loader  : 'babel-loader',
                         options : production
                         ? {
-                            presets : [ 'es2017', 'flow', 'babili' ],
-                            plugins : [
-                                'transform-es2015-modules-commonjs',
-                                'transform-object-rest-spread'
-                            ]
+                            presets : [ 'es2015', 'es2017', 'flow' ],
                         }
-                        : {}
+                        : {
+                            // use babelrc
+                        }
                     },
                 ],
             },
@@ -73,6 +72,10 @@ module.exports = {
 
         ],
     },
+
+    plugins: [
+        new UglifyJSPlugin()
+    ],
 
     devtool : production ? false : 'source-map',
 }
