@@ -72,7 +72,7 @@ const attach = options => {
 
     document.body && document.body.appendChild( element )
 
-    if ( element instanceof HTMLElement ) {
+    if ( element instanceof Element ) {
         element.style.position = 'absolute'
         element.style.width = '100%'
         element.style.height = '100%'
